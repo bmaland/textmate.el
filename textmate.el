@@ -168,7 +168,12 @@
       (error "Couldn't find project root (.git/.hg)"))
     (find-file
      (concat
-      (expand-file-name root) "/"
+      (unless (string-match "linux" system-configuration)
+        ;; I'm temporarily removing this for Linux since for some reason
+        ;; the root is still included in the filepaths, even though it is removed
+        ;; by sed in textmate-project-files. So expanding the root here makes
+        ;; the root appear twice in the paths on my system.
+        (expand-file-name root) "/")
       (textmate-completing-read
        "Find file: "
        (textmate-cached-project-files root))))))
